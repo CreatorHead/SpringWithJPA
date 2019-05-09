@@ -1,11 +1,13 @@
 package com.dev.dao;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.PersistenceUnit;
+import javax.persistence.TypedQuery;
 
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.dev.beans.Person;
 
@@ -32,9 +34,24 @@ public class JPAImpl implements PersonDAO{
 	}
 
 	@Override
-	public Person searchByName(String name) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Person> searchByName(String name) {
+		EntityManager em = emf.createEntityManager();
+		String names[] = null;
+		if(name.contains(" ")) {
+			names = name.split(" ");
+		}else {
+			names = new String[2];
+			names[0] = name;
+			names[1] = name;
+		}
+		String jpql = "SELECT p FROM Person p WHERE p.firstName=:fname OR p.lastName=:lname";
+		TypedQuery<Person> query = em
+				.createQuery(jpql,Person.class);
+		query.setParameter("fname", names[0]);
+		query.setParameter("lname", names[1]);
+		
+		List<Person> list = query.getResultList();
+		return list;
 	}
 
 }

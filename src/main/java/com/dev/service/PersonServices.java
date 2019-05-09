@@ -1,5 +1,7 @@
 package com.dev.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,5 +16,9 @@ public class PersonServices {
 	
 	public boolean addPerson(Person person) {
 		return dao.addPerson(person);
+	}
+	
+	public List<Person> searchByName(String name){
+		return dao.searchByName(name);
 	}
 }
