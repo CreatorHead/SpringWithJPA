@@ -20,8 +20,9 @@ public class JPAImpl implements PersonDAO{
 	@Override
 	public boolean addPerson(Person person) {
 		boolean state = false;
+		EntityManager em = null;
 		try {
-			EntityManager em = emf.createEntityManager();
+			em = emf.createEntityManager();
 			em.getTransaction().begin();
 			em.persist(person);
 			em.getTransaction().commit();
@@ -29,6 +30,10 @@ public class JPAImpl implements PersonDAO{
 		}catch(Exception e) {
 			e.printStackTrace();
 			state = false;
+		}finally {
+			if(em != null) {
+				em.close();
+			}
 		}
 		return state;
 	}

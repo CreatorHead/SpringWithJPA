@@ -9,7 +9,7 @@ import com.dev.beans.Person;
 import com.dev.dao.PersonDAO;
 
 @Service
-public class PersonServices {
+public class PersonServices implements Services {
 	
 	@Autowired
 	private PersonDAO dao;
